@@ -14,10 +14,10 @@ export const ContactList = () => {
   const filteredContacts = getFilterContact();
 
   return (
-    <>
+    <ul>
       {filteredContacts.map(({ name, number, id }) => (
         <ContactItem key={id} name={name} id={id} number={number} />
       ))}
-    </>
+    </ul>
   );
 };

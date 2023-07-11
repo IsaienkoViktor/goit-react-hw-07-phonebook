@@ -1,10 +1,9 @@
+import { setFilter } from 'Redux/createSlice';
 import s from './ContactFilter.module.css';
 import { useDispatch } from 'react-redux';
-import { setFilter } from 'Redux/createSlice';
 
 export function ContactFilter() {
   const dispatch = useDispatch();
-
   return (
     <label className={s.label}>
       Find contacts by name

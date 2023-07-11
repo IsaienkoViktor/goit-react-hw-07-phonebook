@@ -2,7 +2,6 @@ import { selectContacts } from 'Redux/selectors';
 import s from './ContactForm.module.css';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addContact } from 'Redux/createSlice';
 import { addContactThunk } from 'Redux/thunk';
 
 export const ContactForm = () => {
@@ -10,6 +9,11 @@ export const ContactForm = () => {
   const [number, setNumber] = useState('');
   const contacts = useSelector(selectContacts);
   const dispatch = useDispatch();
+  const mapContact = { name: setName, number: setNumber };
+
+  const onChange = ({ target }) => {
+    mapContact[target.name](target.value);
+  };
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -31,9 +35,10 @@ export const ContactForm = () => {
         <input
           className={s.input}
           type="text"
+          name="name"
           placeholder="John Smith"
           value={name}
-          onChange={e => setName(e.target.value)}
+          onChange={onChange}
         />
       </label>
       <label className={s.label}>
@@ -41,9 +46,10 @@ export const ContactForm = () => {
         <input
           className={s.input}
           type="text"
+          name="number"
           placeholder="111-11-11"
           value={number}
-          onChange={e => setNumber(e.target.value)}
+          onChange={onChange}
         />
       </label>
       <button className={s.btn} type="submit">

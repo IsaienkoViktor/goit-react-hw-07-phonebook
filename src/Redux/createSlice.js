@@ -36,7 +36,7 @@ const contactsSlice = createSlice({
       })
       .addCase(deleteContactThunk.fulfilled, (state, { payload }) => {
         state.items = state.items.filter(contact => contact.id !== payload);
-        isLoading = false;
+        state.isLoading = false;
       })
       .addCase(deleteContactThunk.rejected, (state, { payload }) => {
         state.error = payload;
@@ -53,11 +53,13 @@ const filteredSlice = createSlice({
   initialState: {
     filter: '',
   },
-  setFilter(state, { payload }) {
-    state.filter = payload;
+  reducers: {
+    setFilter(state, { payload }) {
+      state.filter = payload;
+    },
   },
 });
 
 export const contactSlice = contactsSlice.reducer;
-export const { setFilter } = filteredSlice.action;
+export const { setFilter } = filteredSlice.actions;
 export const filterSlice = filteredSlice.reducer;
