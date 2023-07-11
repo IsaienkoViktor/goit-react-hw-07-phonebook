@@ -1,43 +1,63 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { addContactThunk, deleteContactThunk, getContactsThunk } from './thunk';
 
-const contactSlice = createSlice({
+const contactsSlice = createSlice({
   name: 'Contacts',
   initialState: {
-    contacts: {
-      items: [],
-      isLoading: false,
-      error: null,
-    },
-    filter: '',
+    items: [],
+    isLoading: false,
+    error: null,
   },
-
-  // reducers: {
-  //   addContact: {
-  //     reducer(state, { payload }) {
-  //       state.items.push(payload);
-  //     },
-  //     prepare(contact) {
-  //       return {
-  //         payload: {
-  //           id: nanoid(),
-  //           ...contact,
-  //         },
-  //       };
-  //     },
-  //   },
-  //   deleteContact(state, { payload }) {
-  //     const index = state.items.findIndex(item => item.id === payload);
-  //     state.items.splice(index, 1);
-  //   },
-  //   setFilter: {
-  //     reducer(state, { payload }) {
-  //       state.filter = payload;
-  //     },
-  //   },
-  // },
-  // extraReducers: builder => {
-  //   builder.addCase();
-  // },
+  extraReducers: builder => {
+    builder
+      .addCase(getContactsThunk.fulfilled, (state, { payload }) => {
+        state.items = payload;
+        state.isLoading = false;
+        state.error = null;
+      })
+      .addCase(getContactsThunk.rejected, (state, { payload }) => {
+        state.error = payload;
+        state.isLoading = false;
+      })
+      .addCase(getContactsThunk.pending, state => {
+        state.isLoading = true;
+      })
+      .addCase(addContactThunk.fulfilled, (state, { payload }) => {
+        state.items = [...state.items, payload];
+        state.isLoading = false;
+        state.error = null;
+      })
+      .addCase(addContactThunk.rejected, (state, { payload }) => {
+        state.error = payload;
+        state.isLoading = false;
+      })
+      .addCase(addContactThunk.pending, state => {
+        state.isLoading = true;
+      })
+      .addCase(deleteContactThunk.fulfilled, (state, { payload }) => {
+        state.items = state.items.filter(contact => contact.id !== payload);
+        isLoading = false;
+      })
+      .addCase(deleteContactThunk.rejected, (state, { payload }) => {
+        state.error = payload;
+        state.isLoading = false;
+      })
+      .addCase(deleteContactThunk.pending, state => {
+        state.isLoading = true;
+      });
+  },
 });
 
-export default contactSlice.reducer;
+const filteredSlice = createSlice({
+  name: 'Filter',
+  initialState: {
+    filter: '',
+  },
+  setFilter(state, { payload }) {
+    state.filter = payload;
+  },
+});
+
+export const contactSlice = contactsSlice.reducer;
+export const { setFilter } = filteredSlice.action;
+export const filterSlice = filteredSlice.reducer;

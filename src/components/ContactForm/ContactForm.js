@@ -3,6 +3,7 @@ import s from './ContactForm.module.css';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { addContact } from 'Redux/createSlice';
+import { addContactThunk } from 'Redux/thunk';
 
 export const ContactForm = () => {
   const [name, setName] = useState('');
@@ -19,8 +20,7 @@ export const ContactForm = () => {
       alert('Name already exsist!');
       return;
     }
-    const contact = { name, number };
-    dispatch(addContact(contact));
+    dispatch(addContactThunk({ name, number })).unwrap().then(console.log);
     setName('');
     setNumber('');
   };

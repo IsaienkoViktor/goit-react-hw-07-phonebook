@@ -9,9 +9,13 @@ export const fetchContacts = async () => {
   return data;
 };
 
-export const addContacts = async user => {
-  const { data } = await usersApi.post('/contacts', user);
+export const addContacts = async contact => {
+  const { data } = await usersApi.post('/contacts', contact);
   return data;
+};
+
+export const deleteContact = async id => {
+  const { data } = await usersApi.delete(`/contacts/${id}`);
 };
 
 // GET
