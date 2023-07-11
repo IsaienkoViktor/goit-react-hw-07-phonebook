@@ -13,21 +13,26 @@ export const getContactsThunk = createAsyncThunk(
   }
 );
 
-export const addContactThunk = createAsyncThunk('contacts/addContacts', async (contact, { rejectWithValue }) => {
-  try {
-    const response = await addContacts(contact);
-    return response
+export const addContactThunk = createAsyncThunk(
+  'contacts/addContacts',
+  async (contact, { rejectWithValue }) => {
+    try {
+      const response = await addContacts(contact);
+      return response;
+    } catch (err) {
+      return rejectWithValue(err.message);
+    }
   }
-  catch (err) {
-    return rejectWithValue(err.message)
-  }
-});
+);
 
-export const deleteContactThunk = createAsyncThunk('contacts/deleteContacts', async (id, { rejectWithValue }) => {
-  try {
-    await deleteContact(id);
-    return id 
+export const deleteContactThunk = createAsyncThunk(
+  'contacts/deleteContacts',
+  async (id, { rejectWithValue }) => {
+    try {
+      await deleteContact(id);
+      return id;
+    } catch (err) {
+      return rejectWithValue(err.message);
+    }
   }
-  catch (err)
-  return rejectWithValue(err.message)
-})
+);
