@@ -63,5 +63,3 @@ const filteredSlice = createSlice({
 export const contactSlice = contactsSlice.reducer;
 export const { setFilter } = filteredSlice.actions;
 export const filterSlice = filteredSlice.reducer;
-
-// tect
